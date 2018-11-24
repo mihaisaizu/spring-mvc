@@ -18,6 +18,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product getProductById(Integer id) {
+        return products.get(id);
+    }
+
+    @Override
     public List<Product> listAllProducts() {
         return new ArrayList<>(products.values());
     }
@@ -39,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
         product2.setPrice(new BigDecimal("14.99"));
         product2.setImageUrl("http://example.com/product2");
 
-        products.put(2, product1);
+        products.put(2, product2);
 
         Product product3 = new Product();
         product3.setId(3);
