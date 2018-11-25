@@ -1,53 +1,38 @@
 package com.mihaisaizu.services;
 
+import com.mihaisaizu.domain.DomainObject;
 import com.mihaisaizu.domain.Product;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService {
-    private Map<Integer,Product> products;
+public class ProductServiceImpl extends AbstractMapService implements ProductService {
 
-    public ProductServiceImpl(){
-        loadProducts();
+    @Override
+    public List<DomainObject> listAll() {
+        return super.listAll();
     }
 
     @Override
-    public Product saveOrUpdateProduct(Product product) {
-        if (product != null){
-            if (product.getId() == null){
-                product.setId(getNextKey());
-            }
-            products.put(product.getId(), product);
-            return product;
-        } else {
-            throw new RuntimeException("Product cant be nill!");
-        }
+    public Product getById(Integer id) {
+        return (Product) super.getById(id);
     }
 
     @Override
-    public Product getProductById(Integer id) {
-        return products.get(id);
+    public Product saveOrUpdate(Product domainObject) {
+        return (Product) super.saveOrUpdate(domainObject);
     }
 
     @Override
-    public List<Product> listAllProducts() {
-        return new ArrayList<>(products.values());
+    public void delete(Integer id) {
+        super.delete(id);
     }
 
-    private Integer getNextKey(){
-        return Collections.max(products.keySet()) + 1;
-    }
-
-    @Override
-    public void deleteProduct(Integer id) {
-        products.remove(id);
-    }
-
-    private void loadProducts(){
-        products = new HashMap<>();
+    protected void loadDomainObjects(){
+        domainMap = new HashMap<>();
 
         Product product1 = new Product();
         product1.setId(1);
@@ -55,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
         product1.setPrice(new BigDecimal("12.99"));
         product1.setImageUrl("http://example.com/product1");
 
-        products.put(1, product1);
+        domainMap.put(1, product1);
 
         Product product2 = new Product();
         product2.setId(2);
@@ -63,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         product2.setPrice(new BigDecimal("14.99"));
         product2.setImageUrl("http://example.com/product2");
 
-        products.put(2, product2);
+        domainMap.put(2, product2);
 
         Product product3 = new Product();
         product3.setId(3);
@@ -71,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
         product3.setPrice(new BigDecimal("34.99"));
         product3.setImageUrl("http://example.com/product3");
 
-        products.put(3, product3);
+        domainMap.put(3, product3);
 
         Product product4 = new Product();
         product4.setId(4);
@@ -79,14 +64,14 @@ public class ProductServiceImpl implements ProductService {
         product4.setPrice(new BigDecimal("44.99"));
         product4.setImageUrl("http://example.com/product4");
 
-        products.put(4, product4);
+        domainMap.put(4, product4);
 
         Product product5 = new Product();
         product5.setId(5);
-        product5.setDescription("Product 5");
+        product5.setDescription("Product 2");
         product5.setPrice(new BigDecimal("25.99"));
         product5.setImageUrl("http://example.com/product5");
 
-        products.put(5, product5);
+        domainMap.put(5, product5);
     }
 }
