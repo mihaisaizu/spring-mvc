@@ -1,29 +1,28 @@
 package com.mihaisaizu.services;
 
 import com.mihaisaizu.domain.DomainObject;
-import com.mihaisaizu.domain.Product;
 
 import java.util.*;
 
 public abstract class AbstractMapService {
     protected Map<Integer, DomainObject> domainMap;
 
-    public AbstractMapService(){
+    public AbstractMapService() {
         domainMap = new HashMap<>();
         loadDomainObjects();
     }
 
-    public List<DomainObject> listAll(){
+    public List<DomainObject> listAll() {
         return new ArrayList<>(domainMap.values());
     }
 
-    public DomainObject getById(Integer id){
+    public DomainObject getById(Integer id) {
         return domainMap.get(id);
     }
 
-    public DomainObject saveOrUpdate(DomainObject domainObject){
-        if (domainObject != null){
-            if (domainObject.getId() ==  null){
+    public DomainObject saveOrUpdate(DomainObject domainObject) {
+        if (domainObject != null) {
+            if (domainObject.getId() == null) {
                 domainObject.setId(getNextKey());
             }
             domainMap.put(domainObject.getId(), domainObject);
@@ -33,11 +32,11 @@ public abstract class AbstractMapService {
         }
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         domainMap.remove(id);
     }
 
-    private Integer getNextKey(){
+    private Integer getNextKey() {
         return Collections.max(domainMap.keySet()) + 1;
     }
 

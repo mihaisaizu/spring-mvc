@@ -2,10 +2,12 @@ package com.mihaisaizu.services;
 
 import com.mihaisaizu.domain.Customer;
 import com.mihaisaizu.domain.DomainObject;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class CustomerServiceImpl extends AbstractMapService implements CustomerService {
 
     @Override
