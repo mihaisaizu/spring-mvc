@@ -19,20 +19,19 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 public class ProductControllerTest {
 
-    @Mock //Mockito Mock object
+    @Mock
     private ProductService productService;
 
-    @InjectMocks //setups up controller, and injects mock objects into it.
+    @InjectMocks
     private ProductController productController;
 
     private MockMvc mockMvc;
 
     @Before
     public void setup(){
-        MockitoAnnotations.initMocks(this); //initializes controller and mocks
+        MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
     }
@@ -44,8 +43,8 @@ public class ProductControllerTest {
         products.add(new Product());
         products.add(new Product());
 
-        //specific Mockito interaction, tell stub to return list of products
-        when(productService.listAll()).thenReturn((List) products); //need to strip generics to keep Mockito happy.
+
+        when(productService.listAll()).thenReturn((List) products);
 
         mockMvc.perform(get("/product/list"))
                 .andExpect(status().isOk())
@@ -57,7 +56,6 @@ public class ProductControllerTest {
     public void testShow() throws Exception{
         Integer id = 1;
 
-        //Tell Mockito stub to return new product for ID 1
         when(productService.getById(id)).thenReturn(new Product());
 
         mockMvc.perform(get("/product/show/1"))
@@ -70,7 +68,6 @@ public class ProductControllerTest {
     public void testEdit() throws Exception{
         Integer id = 1;
 
-        //Tell Mockito stub to return new product for ID 1
         when(productService.getById(id)).thenReturn(new Product());
 
         mockMvc.perform(get("/product/edit/1"))
@@ -83,7 +80,6 @@ public class ProductControllerTest {
     public void testNewProduct() throws Exception {
         Integer id = 1;
 
-        //should not call service
         verifyZeroInteractions(productService);
 
         mockMvc.perform(get("/product/new"))
@@ -120,7 +116,6 @@ public class ProductControllerTest {
                 .andExpect(model().attribute("product", hasProperty("price", is(price))))
                 .andExpect(model().attribute("product", hasProperty("imageUrl", is(imageUrl))));
 
-        //verify properties of bound object
         ArgumentCaptor<Product> boundProduct = ArgumentCaptor.forClass(Product.class);
         verify(productService).saveOrUpdate(boundProduct.capture());
 
