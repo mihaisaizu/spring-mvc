@@ -17,11 +17,12 @@ public class Product implements DomainObject {
     private BigDecimal price;
     private String imageUrl;
 
-
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
